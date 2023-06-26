@@ -56,7 +56,7 @@ if process("cvavr.exe"):
 init()
 print(Style.BRIGHT+Fore.YELLOW+"\n            CodeVision Bugfix            \n\n\n\n\n")
 print(Style.RESET_ALL+Fore.CYAN+"view in github: https://github.com/tsalehm/codevision_patch")
-print(Style.RESET_ALL+"\n\n"+"for the white page bug, use UI fixer (fixes UI without removing settings)\nfor any other UI problem, use UI reset (UI settings will be reset)\nand if your problem is not related to UI, try resetting all settings\n\n\n"+Fore.LIGHTMAGENTA_EX+"1 --> UI fixer\n2 --> UI reset\n3 --> reset all settings\nthen press \"Enter\" :\n\n")
+print(Style.RESET_ALL+"\n\n"+"for the white page bug, use UI fixer (fixes UI without removing settings)\nfor any other UI problem, use UI reset (UI settings will be reset)\nand if your problem is not related to UI, try resetting all settings\n\n\n"+Fore.LIGHTMAGENTA_EX+"1 --> UI fixer\n2 --> UI reset\n3 --> reset all settings\nthen press \"Enter\" :\n\n"+Style.RESET_ALL)
 
 
 paths=["C:\ProgramData\HP InfoTech\CodeVisionAVR"]
