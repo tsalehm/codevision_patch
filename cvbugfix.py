@@ -1,18 +1,12 @@
-import os
-from re import L
-import subprocess
-import colorama
-from termcolor import *
-import configparser
+import os, subprocess, configparser
+from colorama import init,Fore,Style
 
-colorama.init()
+
 def process(process_name):
     call = 'TASKLIST', '/FI', 'imagename eq %s' % process_name
-    # use buildin check_output right away
     output = subprocess.check_output(call).decode()
-    # check in last line for process name
     last_line = output.strip().split('\r\n')[-1]
-    # because Fail message could be translated
+
     return last_line.lower().startswith(process_name.lower())
 
 def inifix(path):
@@ -59,61 +53,67 @@ if process("cvavr.exe"):
    os.system("taskkill /IM cvavr.exe")
    os.system("cls")
 
+init()
+print(Style.BRIGHT+Fore.YELLOW+"\n            CodeVision Bugfix            \n\n\n\n\n")
+print(Style.RESET_ALL+Fore.CYAN+"view in github: https://github.com/tsalehm/codevision_patch")
+print(Style.RESET_ALL+"\n\n"+"for the white page bug, use UI fixer (fixes UI without removing settings)\nfor any other UI problem, use UI reset (UI settings will be reset)\nand if your problem is not related to UI, try resetting all settings\n\n\n"+Fore.LIGHTMAGENTA_EX+"1 --> UI fixer\n2 --> UI reset\n3 --> reset all settings\nthen press \"Enter\" :\n\n")
 
 
-cprint("\n\n\n\n\n            CodeVision Bugfix            \n","yellow",attrs=["bold"])
-cprint("  made by tsalehm","cyan")
-print("\n\n"+"  for the white page bug, use UI fixer (fixes UI without removing settings)\n  for any other UI problem, use UI reset (UI settings will be reset) \n  and if your problem is not related to UI, try resetting all settings\n\n\n"+"  1 --> UI fixer\n  2 --> UI reset\n  3 --> reset all settings\n  then press \"Enter\" :\n\n")
-
-
+paths=["C:\ProgramData\HP InfoTech\CodeVisionAVR"]
+if os.path.exists(os.path.expandvars("$localappdata\google")):
+   paths.append(os.path.expandvars("$localappdata\VirtualStore\ProgramData\HP InfoTech\CodeVisionAVR")) 
+   
+   
 while 1:
-   how = input("  ")
-
+   how = input()
+      
    if how=='1':   
       try:
-         inifix() 
-         os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvdocking.ini")
-      except:
-
-         cprint("\n\n  there is nothing to change! if the bug is not fixed, msg : @tsalehm in telegeam","red")
+         for path in paths:
+            if os.path.exists(os.path.join(path,"cvdocking.ini")): 
+               os.remove(os.path.join(path,"cvdocking.ini"))
+            if os.path.exists(os.path.join(path,"cvtoolbars.ini")):
+               inifix(path)
+      except Exception as e:
+         print(Style.RESET_ALL+Fore.RED+"\n\nshoot! i can't do it! please open an issue in github about this and report this error:\n\n"+Style.RESET_ALL+Fore.WHITE+str(e))
       else:
-         cprint("\n\n  UI settings fixed successfully","green")
+         print(Style.RESET_ALL+Fore.GREEN+"\n\nUI settings fixed successfully. if it didn't work, try using next option and please! open an issue in github about this","green")
       finally:
-         if bool(input("\n\n   press \"Enter\" to exit")):
-            quit()
+         input(Style.RESET_ALL+"\n\npress \"Enter\" to exit")
+         exit()
 
-
-   elif how=='2':
-
-      try: 
-         if os.path.exists("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvdocking.ini"):
-            os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvdocking.ini")
-         os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvtoolbars.ini")
-#         os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvavr.ini")
+   elif how=='2':   
+      try:
+         for path in paths:
+            if os.path.exists(os.path.join(path,"cvdocking.ini")): 
+               os.remove(os.path.join(path,"cvdocking.ini"))
+            if os.path.exists(os.path.join(path,"cvtoolbars.ini")):
+               os.remove(os.path.join(path,"cvtoolbars.ini"))
       except:
-         cprint("\n\n  UI settings were already reset. if didn't work, try resetting all settings","red")
-      else: 
-         cprint("\n\n  UI settings reset successfully","green")
+         print(Style.RESET_ALL+Fore.RED+"\n\nshoot! i can't do it! please open an issue in github about this and report this error:\n\n"+Style.RESET_ALL+Fore.WHITE+str(e))
+      else:
+         print(Style.RESET_ALL+Fore.GREEN+"\n\nUI settings were reset successfully. if it didn't work, try using next option and please! open an issue in github about this","green")
       finally:
-         if input("\n\n   press \"Enter\" to exit")!='5':
-            quit()
+         input(Style.RESET_ALL+"\n\npress \"Enter\" to exit")
+         exit()
 
-   elif how=='3':
 
-      try: 
-         if os.path.exists("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvdocking.ini"):
-            os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvdocking.ini")
-         if os.path.exists("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvtoolbars.ini"):
-            os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvtoolbars.ini")
-         os.remove("C:\ProgramData\HP InfoTech\CodeVisionAVR\cvavr.ini")
+   elif how=='3':   
+      try:
+         for path in paths:
+            if os.path.exists(os.path.join(path,"cvdocking.ini")): 
+               os.remove(os.path.join(path,"cvdocking.ini"))
+            if os.path.exists(os.path.join(path,"cvtoolbars.ini")):
+               os.remove(os.path.join(path,"cvtoolbars.ini"))
+            if os.path.exists(os.path.join(path,"cvavr.ini")):
+               os.remove(os.path.join(path,"cvavr.ini"))
       except:
-         cprint("\n\n  settings are reset before. if the bug is still remaining, try re-installing CodeVisin","red")
-      else: 
-         cprint("\n\n  all settings were reset successfully","green")
+         print(Style.RESET_ALL+Fore.RED+"\n\nshoot! i can't do it! please open an issue in github about this and report this error:\n\n"+Style.RESET_ALL+Fore.WHITE+str(e))
+      else:
+         print(Style.RESET_ALL+Fore.GREEN+"\n\nALL settings were reset successfully. if it didn't work, please! open an issue in github about this","green")
       finally:
-         if input("\n\n   press \"Enter\" to exit")!='5':
-            quit()
-
+         input(Style.RESET_ALL+"\n\npress \"Enter\" to exit")
+         exit()
 
    else :
-      print("\n  please enter '1' or '2' or '3' :\n\n")
+      print(Style.RESET_ALL+"\nplease enter '1' or '2' or '3' :\n\n")
